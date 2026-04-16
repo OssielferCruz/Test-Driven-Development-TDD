@@ -1,0 +1,27 @@
+Preguntas de Reflexion - Fase 4: Auditoria Final
+=================================================
+
+1. Observen el codigo final de su clase Personaje. Tiene dependencias externas o codigo inutil?
+
+   Respuesta: No. La clase Personaje es completamente autocontenida, no importa ningun
+   modulo externo ni depende de otras clases. Cada linea de codigo tiene un proposito 
+   claro vinculado directamente a una regla de negocio del Product Backlog:
+   - __init__: Regla 1 (HP=1000, Nivel=1, Vivo)
+   - atacar: Reglas 2 y 3 (Dano y Muerte)
+   - curar: Reglas 4 y 5 (Curacion con validaciones)
+   No existe codigo muerto ni funcionalidades sin cobertura de pruebas.
+
+
+2. Si en el proximo parche del juego el disenador decide que los personajes nazcan con
+   2000 HP en lugar de 1000, que es lo primero que deben modificar?
+
+   Respuesta: Siguiendo la metodologia TDD, lo primero que debemos modificar son las 
+   PRUEBAS (tests). Especificamente:
+   - En test_personaje_nace_con_estadisticas_correctas: cambiar assert heroe.hp == 1000 
+     por assert heroe.hp == 2000
+   - En test_no_curar_mas_del_maximo: ajustar los valores del assert para reflejar el 
+     nuevo limite de 2000 HP
+   Luego ejecutamos pytest para verificar que las pruebas FALLEN (RED), y solo entonces 
+   modificamos el codigo de produccion en rpg.py para que las pruebas pasen (GREEN).
+   La regla de oro de TDD es: nunca escribir codigo de produccion sin antes tener una 
+   prueba que falle.
